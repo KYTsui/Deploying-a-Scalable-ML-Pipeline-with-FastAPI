@@ -12,6 +12,7 @@ from ml.model import (
     save_model,
     train_model,
 )
+
 # TODO: load the cencus.csv data
 project_path = "/Deploying-a-Scalable-ML-Pipeline-with-FastAPI"
 data_path = os.path.join(project_path, "data", "census.csv")
@@ -36,11 +37,11 @@ cat_features = [
 
 # TODO: use the process_data function provided to process the data.
 X_train, y_train, encoder, lb = process_data(
+    train,
     categorical_features=cat_features,
     label="salary",
     training=True,
-    encoder=encoder,
-    lb=lb,
+
     )
 
 X_test, y_test, encoder, lb = process_data(
@@ -53,7 +54,7 @@ X_test, y_test, encoder, lb = process_data(
 )
 
 # TODO: use the train_model function to train the model on the training dataset
-model = # your code here
+model = train_model(X_train, y_train)
 
 # save the model and the encoder
 model_path = os.path.join(project_path, "model", "model.pkl")
@@ -67,7 +68,7 @@ model = load_model(
 ) 
 
 # TODO: use the inference function to run the model inferences on the test dataset.
-preds = # your code here
+preds = inference(model, X_test)
 
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)
@@ -80,9 +81,16 @@ for col in cat_features:
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
         p, r, fb = performance_on_categorical_slice(
-            # your code here
-            # use test, col and slicevalue as part of the input
+            data=test,
+            column_name=col,
+            slice_value=slicevalue,
+            categorical_features=cat_features,
+            label=label,
+            encoder=encoder,
+            lb=lb,
+            model=model
         )
+
         with open("slice_output.txt", "a") as f:
         print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
         print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
