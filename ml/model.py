@@ -26,7 +26,7 @@ def train_model(X_train, y_train):
 
     # Define hyperparameters for tuning regularization penalty and other parameters.
     param_grid = {
-        'penalty': ['l1', 'l2'],
+        'penalty': ['None', 'l2'],
         'C': [0.01, 0.1, 1, 10, 100] }
 
     # Initialize GridSearchCV.
