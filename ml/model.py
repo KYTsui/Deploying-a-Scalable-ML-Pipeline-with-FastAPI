@@ -26,8 +26,8 @@ def train_model(X_train, y_train):
 
     # Define hyperparameters for tuning regularization penalty and other parameters.
     param_grid = {
-        'penalty': ['none', 'l2'],
-        'C': [0.01, 0.1, 1, 10, 100] }
+        'penalty': ['none', 'l1', 'l2'],
+        'C': [0.001, 0.01, 0.1, 1, 10, 100] }
 
     # Initialize GridSearchCV.
     grid_search = GridSearchCV(estimator=model, param_grid=param_grid, cv=5, n_jobs=-1)
