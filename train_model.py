@@ -14,7 +14,7 @@ from ml.model import (
 )
 
 # TODO: load the cencus.csv data
-project_path = "/Deploying-a-Scalable-ML-Pipeline-with-FastAPI"
+project_path = ""
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
 data = pd.read_csv(data_path)
@@ -92,5 +92,5 @@ for col in cat_features:
         )
 
         with open("slice_output.txt", "a") as f:
-        print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
-        print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
+            print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
+            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)

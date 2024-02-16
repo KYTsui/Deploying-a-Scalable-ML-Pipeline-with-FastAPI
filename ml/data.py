@@ -53,6 +53,7 @@ def process_data(
     X_categorical = X[categorical_features].values
     X_continuous = X.drop(*[categorical_features], axis=1)
     # Scaling the continuous data using the standard scaler.
+    scaler = StandardScaler()
     X_continuous = scaler.fit_transform(X_continuous)
 
     if training is True:
