@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-
+from sklearn.preprocessing import StandardScaler
 
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
@@ -52,6 +52,8 @@ def process_data(
 
     X_categorical = X[categorical_features].values
     X_continuous = X.drop(*[categorical_features], axis=1)
+    # Scaling the continuous data using the standard scaler.
+    X_continuous = scaler.fit_transform(X_continuous)
 
     if training is True:
         encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
