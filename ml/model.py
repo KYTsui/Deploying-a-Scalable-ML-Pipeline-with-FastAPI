@@ -139,7 +139,7 @@ def performance_on_categorical_slice(
         Trained sklearn OneHotEncoder, only used if training=False.
     lb : sklearn.preprocessing._label.LabelBinarizer
         Trained sklearn LabelBinarizer, only used if training=False.
-    model : ???
+    model : LogisticRegression()
         Model used for the task.
 
     Returns
@@ -154,8 +154,8 @@ def performance_on_categorical_slice(
         # your code here
         # for input data, use data in column given as "column_name", with the slice_value 
         # use training = False
-        data,
-        categorical_features=column_name,
+        column_name,
+        categorical_features=slice_value,
         label=label,
         training=False,
         encoder=encoder,
