@@ -26,10 +26,11 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
+project_path = ""
 path = os.path.join(project_path, "model", "encoder.pkl")
 encoder = load_model(path)
 
-path = os.path.join(project_path, "model", "model.pkl")
+os.path.join(project_path, "model", "model.pkl")
 model = load_model(path)
 
 # TODO: create a RESTful API using FastAPI
@@ -41,6 +42,8 @@ async def get_root():
     """ Say hello!"""
     return {"message":"Welcome!"}
 
+
+from fastapi import HTTPException
 
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
@@ -63,11 +66,18 @@ async def post_inference(data: Data):
         "sex",
         "native-country",
     ]
-    data_processed, y, encoder, lb = process_data(
-        data,
-        categorical_features=cat_features,
-        training=False
-        # do not need to pass lb as input
-    )
-    _inference = inference(model, data_processed)
-    return {"result": apply_label(_inference)}
+
+
+    try:
+        data_processed, _, _, _ =  process_data(
+            data,
+            categorical_features=cat_features,
+            training=False
+            # do not need to pass lb as input
+        )
+        _inference = inference(data_processed)
+        return {"result": apply_label(_inference)}
+
+except Exception as e:
+    # Return an error response if an exception occurs.
+    raise HTTPException(status_code=500, detail=str(e))
