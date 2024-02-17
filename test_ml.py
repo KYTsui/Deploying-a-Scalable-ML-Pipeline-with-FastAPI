@@ -84,6 +84,6 @@ def test_precision(data):
 
     # Use the compute_model_metrics to calculate metrics.
     p, r, fb = compute_model_metrics(y_test, preds)
-    expected_p > 0.65
+    expected_p = 0.65
     assert p > expected_p, "Precision value is too low. Check if there are data points being mislabeled."
 
