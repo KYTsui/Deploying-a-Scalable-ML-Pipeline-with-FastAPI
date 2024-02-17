@@ -46,6 +46,17 @@ def test_precision(data):
     # Check if the calculated precision is acceptable (i.e., > 0.65).
     There are reasons for this test to fail, such as having mislabelled data points.
     """
+    cat_features = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+    ]
+
     # Split data into train and test sets.
     train, test = train_test_split(data, test_size=0.2, random_state=42)
     X_train, y_train, encoder, lb = process_data(
