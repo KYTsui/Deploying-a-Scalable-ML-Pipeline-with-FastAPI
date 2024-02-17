@@ -20,7 +20,6 @@ def data():
     print(data_path)
     data = pd.read_csv(data_path)
 
-    )
     return data
 
 # First unit test:
