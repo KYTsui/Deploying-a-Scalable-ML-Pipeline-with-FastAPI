@@ -78,6 +78,6 @@ async def post_inference(data: Data):
         _inference = inference(data_processed)
         return {"result": apply_label(_inference)}
 
-except Exception as e:
-    # Return an error response if an exception occurs.
-    raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:
+        # Return an error response if an exception occurs.
+        raise HTTPException(status_code=500, detail=str(e))
