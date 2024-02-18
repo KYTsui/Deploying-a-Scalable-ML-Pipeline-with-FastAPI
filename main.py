@@ -32,8 +32,10 @@ path = os.path.join(project_path, "model", "encoder.pkl")
 encoder = load_model(path)
 
 # TODO: enter the path for the saved model
-os.path.join(project_path, "model", "model.pkl")
-model = load_model(path)
+model_path = os.path.join(project_path, "model", "model.pkl")
+model = load_model(model_path)
+
+print(path, model_path)
 
 # TODO: create a RESTful API using FastAPI
 app = FastAPI()
@@ -42,9 +44,7 @@ app = FastAPI()
 @app.get("/")
 async def get_root():
     """ Say hello!"""
-    return {"message":"Hellow and welcome!"}
-
-
+    return {"message":"Hello and welcome!"}
 
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
@@ -56,6 +56,7 @@ async def post_inference(data: Data):
     # Here it uses the functionality of FastAPI/Pydantic/etc to deal with this.
     data = {k.replace("_", "-"): [v] for k, v in data_dict.items()}
     data = pd.DataFrame.from_dict(data)
+    print(data)
 
     cat_features = [
         "workclass",
@@ -65,16 +66,14 @@ async def post_inference(data: Data):
         "relationship",
         "race",
         "sex",
-        "native-country",
+        "native-country"
     ]
 
-    data_processed, _, _, _ =  process_data(
+
+    data_processed, y, encoder, lb =  process_data(
         data,
         categorical_features=cat_features,
-        label="salary",
-        training=False,
-        encoder=encoder,
-        lb=lb,
+        training=False
 
         )
 
