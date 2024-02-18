@@ -26,10 +26,12 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
+# TODO: enter the path for the saved encoder
 project_path = ""
 path = os.path.join(project_path, "model", "encoder.pkl")
 encoder = load_model(path)
 
+# TODO: enter the path for the saved model
 os.path.join(project_path, "model", "model.pkl")
 model = load_model(path)
 
@@ -40,10 +42,9 @@ app = FastAPI()
 @app.get("/")
 async def get_root():
     """ Say hello!"""
-    return {"message":"Welcome!"}
+    return {"message":"Hellow and welcome!"}
 
 
-from fastapi import HTTPException
 
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
@@ -67,17 +68,15 @@ async def post_inference(data: Data):
         "native-country",
     ]
 
+    data_processed, _, _, _ =  process_data(
+        data,
+        categorical_features=cat_features,
+        label="salary",
+        training=False,
+        encoder=encoder,
+        lb=lb,
 
-    try:
-        data_processed, _, _, _ =  process_data(
-            data,
-            categorical_features=cat_features,
-            training=False
-            # do not need to pass lb as input
         )
-        _inference = inference(data_processed)
-        return {"result": apply_label(_inference)}
 
-    except Exception as e:
-        # Return an error response if an exception occurs.
-        raise HTTPException(status_code=500, detail=str(e))
+    _inference = inference(model, data_processed)
+    return {"result": apply_label(_inference)}
