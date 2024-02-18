@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
+import pickle
 
 # DO NOT MODIFY
 class Data(BaseModel):
@@ -45,7 +46,7 @@ async def startup_event():
     global model, encoder, binarizer
     model = pickle.load(open("./model/model.pkl", "rb"))
     encoder = pickle.load(open("./model/encoder.pkl", "rb"))
-    binarizer = pickle.load(open("./model/lb.pkl", "rb"))
+    #binarizer = pickle.load(open("./model/lb.pkl", "rb"))
 
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
