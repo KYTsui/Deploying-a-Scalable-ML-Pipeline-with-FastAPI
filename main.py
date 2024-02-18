@@ -48,6 +48,7 @@ async def startup_event():
     encoder = pickle.load(open("./model/encoder.pkl", "rb"))
     #binarizer = pickle.load(open("./model/lb.pkl", "rb"))
 
+
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
 async def get_root():
@@ -57,6 +58,7 @@ async def get_root():
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
 async def post_inference(data: Data):
+    global encoder
     # DO NOT MODIFY: turn the Pydantic model into a dict.
     data_dict = data.dict()
     # DO NOT MODIFY: clean up the dict to turn it into a Pandas DataFrame.
@@ -81,8 +83,8 @@ async def post_inference(data: Data):
     data_processed, y, encoder, lb =  process_data(
         data,
         categorical_features=cat_features,
-        training=False
-
+        training=False,
+        encoder = encoder
         )
 
     _inference = inference(model, data_processed)
