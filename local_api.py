@@ -33,5 +33,5 @@ r = requests.post("http://127.0.0.1:8000/data", json=data)
 # TODO: print the status code
 print("\nPOST Status Code:", r.status_code)
 # TODO: print the result
-print("Inference Result:", r.json())
+print("Inference Result:", r.json()["result"])
 

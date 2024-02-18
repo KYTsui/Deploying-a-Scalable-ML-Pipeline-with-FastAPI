@@ -40,6 +40,13 @@ print(path, model_path)
 # TODO: create a RESTful API using FastAPI
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup_event():
+    global model, encoder, binarizer
+    model = pickle.load(open("./model/model.pkl", "rb"))
+    encoder = pickle.load(open("./model/encoder.pkl", "rb"))
+    binarizer = pickle.load(open("./model/lb.pkl", "rb"))
+
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
 async def get_root():
